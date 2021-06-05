@@ -46,13 +46,19 @@ public class BookingService {
         Booking booking= bookingRepository.findByMemberAndBook(member,book);
         if(booking !=null){
             if(booking.getReturnDate().isAfter(booking.getDueDate())){
-
+                    Long fine = 0l;
                     long dates = booking.getDueDate().until(booking.getReturnDate(),ChronoUnit.DAYS);
                     if(dates == 0l){
                         return new Response("no fees charged");
                     }else if(dates <= 3l){
+                        fine = dates*20;
+                        booking.setCharges(Math.toIntExact(fine));
+                        bookingRepository.saveAndFlush(booking);
                         return new Response("your total fine is :" + dates*20);
                     }else{
+                        fine = dates*50;
+                        booking.setCharges(Math.toIntExact(fine));
+                        bookingRepository.saveAndFlush(booking);
                         return new Response("your total fine is :" + dates*50);
                     }
 

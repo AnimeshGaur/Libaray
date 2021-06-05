@@ -37,5 +37,5 @@ public class Booking implements Serializable {
     private String status;
 
     @Column(name = "charges")
-    private String charges;
+    private Integer charges;
 }
