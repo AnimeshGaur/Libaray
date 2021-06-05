@@ -29,6 +29,15 @@ public class BookingService {
     private BookRepository bookRepository;
 
 
+    /**
+     * check fine
+     *
+     * @param memberId memberId
+     * @param uuid uuid
+     * @return {@link Response}
+     * @see Response
+     * @throws NotFoundException javassist. not found exception
+     */
     public Response checkFine(Long memberId, Long uuid) throws NotFoundException {
 
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException("member not found"));
@@ -48,6 +57,8 @@ public class BookingService {
                     }
 
             }
+        }else{
+            throw new NotFoundException("Book can be returned by the borrowed member itself ");
         }
         return new Response("no fees charged");
     }
